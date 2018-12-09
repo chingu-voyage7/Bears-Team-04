@@ -1,4 +1,5 @@
-const { createUser } = require('./controllers/users');
+const { body, validationResult } = require('express-validator/check')
+const { createUser } = require('./controllers/users')
 
 module.exports = (app) => {
   app.get('/', (req, res) => {
@@ -6,8 +7,16 @@ module.exports = (app) => {
       message: 'Hello world !'
     })
   })
-
-  app.get('/register', (req, res) => {
+  // /////REGISTER USER//////////////////
+  const registerCheck = [
+    body('email').exists().isEmail().normalizeEmail(),
+    body('password').isLength({ min: 8 })
+  ]
+  app.get('/register', registerCheck, (req, res) => {
+    let errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() })
+    }
     let data = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -15,7 +24,6 @@ module.exports = (app) => {
       email: req.body.email,
       password: req.body.password
     }
-     
     createUser(data).then((user) => {
       res.json(user)
     })
