@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { body, validationResult } = require('express-validator/check')
-const { createUser } = require('../controllers/users')
+const { createUser } = require('../controllers/authenticationController')
 
 // /////REGISTER A USER//////////////////
 const registerCheck = [

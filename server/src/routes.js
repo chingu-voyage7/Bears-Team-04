@@ -7,5 +7,5 @@ module.exports = (app) => {
     })
   })
 
-  app.use('/user', userRoutes)
+  app.use(userRoutes)
 }

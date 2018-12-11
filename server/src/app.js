@@ -1,4 +1,4 @@
-require('./config/config')
+const config = require('./config/config')
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -13,13 +13,12 @@ const logger = require('tracer').colorConsole({
     }
   ]
 })
-const port = process.env.PORT || 8081
 
 const app = express()
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(config.database, { useNewUrlParser: true })
   .then(() => {
-    logger.info(`Connected to DB: ${process.env.MONGODB_URI}`)
+    logger.info(`Connected to DB: ${config.database}`)
   })
   .catch(e => {
     logger.error({
@@ -34,6 +33,6 @@ app.use(cors())
 
 require('./routes')(app)
 
-app.listen(port, () => {
-  logger.info(`CORS-enabled web server listening on port ${port}`)
+app.listen(config.port, () => {
+  logger.info(`CORS-enabled web server listening on port ${config.port}`)
 })
