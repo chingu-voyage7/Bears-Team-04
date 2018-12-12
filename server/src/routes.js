@@ -1,4 +1,4 @@
-const userRoutes = require('./routes/users')
+const authenticationRoutes = require('./routes/users')
 
 module.exports = (app) => {
   app.get('/', (req, res) => {
@@ -7,5 +7,5 @@ module.exports = (app) => {
     })
   })
 
-  app.use(userRoutes)
+  app.use(authenticationRoutes)
 }
