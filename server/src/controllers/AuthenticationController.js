@@ -1,9 +1,16 @@
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
+const config = require('../config/config')
 
 module.exports = {
   register (req, res) {
     User.create(req.body)
-      .then(user => { res.send(user.toJSON()) })
+      .then(user => {
+        res.send({
+          token: generateUserToken(user.toJSON()),
+          user: user.toJSON()
+        })
+      })
       .catch(error => { res.status(400).send(error) })
   },
 
@@ -19,12 +26,20 @@ module.exports = {
         })
       }
 
-      // TODO: persist user session by also sending access token
-      res.send(user.toJSON())
+      res.send({
+        token: generateUserToken(user.toJSON()),
+        user: user.toJSON()
+      })
     } catch (error) {
       res.status(500).send({
         error: `An error has occured trying to login: ${error}`
       })
     }
   }
+}
+
+function generateUserToken (userJSON) {
+  return jwt.sign(userJSON, config.jwtPrivateKey, {
+    expiresIn: '7d'
+  })
 }
