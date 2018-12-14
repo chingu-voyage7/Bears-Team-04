@@ -13,15 +13,14 @@ module.exports = {
     try {
       const user = await User.findOne({ email })
 
-      // TODO: replace password comparison by actual password comparison
-      if (!user || !(user.password === user.password)) {
+      if (!user || !user.isSamePassword(password)) {
         return res.status(403).send({
           error: 'The login information is incorrect'
         })
       }
 
       // TODO: persist user session by also sending access token
-      res.send({ user: user.toJSON() })
+      res.send(user.toJSON())
     } catch (error) {
       res.status(500).send({
         error: `An error has occured trying to login: ${error}`

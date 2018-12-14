@@ -13,10 +13,16 @@ const UserSchema = mongoose.Schema(
   }
 )
 
-UserSchema.pre('save', function () {
+UserSchema.pre('save', function saveUserPreHook () {
   return bcrypt.hash(this.password, SALT_ROUNDS)
     .then(hash => { this.password = hash })
     .catch(error => { throw error })
 })
+
+UserSchema.methods.isSamePassword = function isSamePassword (password) {
+  return bcrypt.compare(password, this.password)
+    .then(match => match)
+    .catch(error => { throw error })
+}
 
 module.exports = mongoose.model('User', UserSchema)
