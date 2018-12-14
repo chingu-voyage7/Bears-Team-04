@@ -7,8 +7,8 @@ router.post('/register',
   AuthenticationController.register
 )
 
-router.post('/login', function (req, res) {
-  res.send(req.body)
-})
+router.post('/login',
+  AuthenticationController.login
+)
 
 module.exports = router
