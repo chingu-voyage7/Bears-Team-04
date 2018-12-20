@@ -19,8 +19,9 @@ module.exports = {
 
     try {
       const user = await User.findOne({ email })
+      const isSamePassword = await user.isSamePassword(password)
 
-      if (!user || !user.isSamePassword(password)) {
+      if (!user || !isSamePassword) {
         return res.status(403).send({
           error: 'The login information is incorrect'
         })
