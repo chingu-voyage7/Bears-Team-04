@@ -8,4 +8,4 @@ const ChannelSchema = mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('User', ChannelSchema)
+module.exports = mongoose.model('Channel', ChannelSchema)

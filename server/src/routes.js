@@ -1,5 +1,5 @@
 const authenticationRoutes = require('./routes/users')
-
+const channelRoutes = require('./routes/channels')
 module.exports = (app) => {
   app.get('/', (req, res) => {
     res.send({
@@ -8,4 +8,6 @@ module.exports = (app) => {
   })
 
   app.use(authenticationRoutes)
+
+  app.use(channelRoutes)
 }
